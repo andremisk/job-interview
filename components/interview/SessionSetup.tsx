@@ -18,9 +18,10 @@ import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Segment, Company, Position } from "@/types/database";
 
+const supabase = createClient();
+
 export function SessionSetup({ userId }: { userId: string }) {
   const router = useRouter();
-  const supabase = createClient();
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [segments, setSegments] = useState<Segment[]>([]);
