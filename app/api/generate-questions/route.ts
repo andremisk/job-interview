@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   // Verify session belongs to this user
   const { data: session } = await supabase
     .from("interview_sessions")
-    .select("id, user_id")
+    .select("id, user_id, personal_context")
     .eq("id", sessionId)
     .eq("user_id", user.id)
     .single();
@@ -74,6 +74,7 @@ export async function POST(request: NextRequest) {
     requirements: position.requirements ?? "",
     segmentName: (company.segment as { name: string } | null)?.name ?? "professional",
     questionCount,
+    personalContext: (session as unknown as { personal_context: string | null }).personal_context ?? undefined,
   });
 
   const message = await anthropic.messages.create({

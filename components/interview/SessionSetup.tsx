@@ -32,6 +32,7 @@ export function SessionSetup({ userId }: { userId: string }) {
   const [companySearch, setCompanySearch] = useState("");
   const [positions, setPositions] = useState<Position[]>([]);
   const [selectedPosition, setSelectedPosition] = useState<Position | null>(null);
+  const [personalContext, setPersonalContext] = useState("");
   const [creating, setCreating] = useState(false);
 
   useEffect(() => {
@@ -81,6 +82,7 @@ export function SessionSetup({ userId }: { userId: string }) {
         position_id: selectedPosition.id,
         status: "pending",
         question_count: 5,
+        personal_context: personalContext.trim() || null,
       })
       .select()
       .single();
@@ -260,6 +262,22 @@ export function SessionSetup({ userId }: { userId: string }) {
                 ))
               )}
             </div>
+          </div>
+
+          <div className="space-y-2 pt-2">
+            <Label htmlFor="personal-context">
+              Personal context <span className="text-muted-foreground font-normal">(optional)</span>
+            </Label>
+            <textarea
+              id="personal-context"
+              value={personalContext}
+              onChange={(e) => setPersonalContext(e.target.value)}
+              placeholder="e.g. I'm applying to the workplace studio. My strongest projects are the civic library renovation and a mixed-use residential building. I know Revit and Rhino but am still learning Grasshopper."
+              className="w-full min-h-[96px] rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+            />
+            <p className="text-xs text-muted-foreground">
+              Help the AI tailor questions to your specific background, projects, and the studio you are applying to.
+            </p>
           </div>
 
           <div className="flex gap-3 pt-2">

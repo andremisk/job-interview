@@ -24,6 +24,7 @@ export interface QuestionGenerationContext {
   requirements: string;
   segmentName: string;
   questionCount: number;
+  personalContext?: string;
 }
 
 export interface EvaluationContext {
