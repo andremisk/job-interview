@@ -82,6 +82,7 @@ export function InterviewClient({ sessionId, userId }: InterviewClientProps) {
       </div>
 
       <QuestionCard
+        key={currentQuestion.id}
         questionText={currentQuestion.question_text}
         questionType={currentQuestion.question_type as QuestionType}
         questionNumber={currentIndex + 1}
