@@ -22,7 +22,9 @@ For intern/junior: more behavioral and culture_fit, fewer technical.
 For mid/senior/lead: balanced technical, behavioral, and situational.
 
 Make questions specific to the company and role — reference the company's known culture, products, or domain where relevant.
-${ctx.personalContext ? `\nCandidate context (use this to tailor questions to their specific background and situation):\n${ctx.personalContext}` : ""}
+${ctx.personalContext ? `\nCandidate context:\n${ctx.personalContext}` : ""}
+${ctx.resumeText ? `\nCandidate resume (tailor questions to their specific experience, projects, and background listed here):\n${ctx.resumeText}` : ""}
+${ctx.jobDescription ? `\nJob description (align questions with the exact requirements and responsibilities listed):\n${ctx.jobDescription}` : ""}
 Return ONLY the JSON array with no additional text, markdown, or explanation.`;
 }
 

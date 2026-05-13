@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   // Verify session belongs to this user
   const { data: session } = await supabase
     .from("interview_sessions")
-    .select("id, user_id, personal_context")
+    .select("id, user_id, personal_context, notes")
     .eq("id", sessionId)
     .eq("user_id", user.id)
     .single();
@@ -62,6 +62,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Company or position not found" }, { status: 404 });
   }
 
+  let sessionNotes: { resumeText?: string; jobDescription?: string } = {};
+  try {
+    const raw = (session as unknown as { notes: string | null }).notes;
+    if (raw) sessionNotes = JSON.parse(raw);
+  } catch { /* ignore */ }
+
   const systemPrompt = buildQuestionGenerationSystem({
     companyName: company.name,
     industry: company.industry ?? "professional services",
@@ -75,6 +81,8 @@ export async function POST(request: NextRequest) {
     segmentName: (company.segment as { name: string } | null)?.name ?? "professional",
     questionCount,
     personalContext: (session as unknown as { personal_context: string | null }).personal_context ?? undefined,
+    resumeText: sessionNotes.resumeText,
+    jobDescription: sessionNotes.jobDescription,
   });
 
   const message = await anthropic.messages.create({

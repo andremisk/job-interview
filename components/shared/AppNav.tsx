@@ -25,14 +25,17 @@ export function AppNav() {
   }
 
   return (
-    <nav className="flex flex-col h-full py-4 px-3">
-      <div className="mb-6 px-2">
+    <nav className="flex flex-col h-full py-5 px-3">
+      <div className="mb-6 px-2 flex items-center gap-2.5">
+        <div className="h-6 w-6 rounded-md bg-zinc-900 flex items-center justify-center shrink-0">
+          <span className="text-white text-[10px] font-bold tracking-tight">IP</span>
+        </div>
         <span className="text-sm font-semibold tracking-tight">Interview Prep</span>
       </div>
 
-      <Button size="sm" className="mb-4 w-full justify-start gap-2" asChild>
+      <Button size="sm" className="mb-5 w-full justify-start gap-2 rounded-lg h-9" asChild>
         <Link href="/new">
-          <Plus className="h-4 w-4" />
+          <Plus className="h-3.5 w-3.5" />
           New session
         </Link>
       </Button>
@@ -43,10 +46,10 @@ export function AppNav() {
             <Link
               href={href}
               className={cn(
-                "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
+                "flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors",
                 pathname === href || pathname.startsWith(href + "/")
-                  ? "bg-accent text-accent-foreground font-medium"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  ? "bg-zinc-100 text-zinc-900 font-medium"
+                  : "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700"
               )}
             >
               <Icon className="h-4 w-4 shrink-0" />
@@ -56,13 +59,15 @@ export function AppNav() {
         ))}
       </ul>
 
-      <button
-        onClick={handleSignOut}
-        className="flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors w-full"
-      >
-        <LogOut className="h-4 w-4 shrink-0" />
-        Sign out
-      </button>
+      <div className="border-t pt-3">
+        <button
+          onClick={handleSignOut}
+          className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 transition-colors w-full"
+        >
+          <LogOut className="h-4 w-4 shrink-0" />
+          Sign out
+        </button>
+      </div>
     </nav>
   );
 }

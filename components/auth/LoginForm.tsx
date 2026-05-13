@@ -16,8 +16,10 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [magicLoading, setMagicLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [magicSent, setMagicSent] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   async function handlePasswordLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -50,6 +52,38 @@ export function LoginForm() {
     } else {
       setMagicSent(true);
     }
+  }
+
+  async function handleResetPassword() {
+    if (!email) {
+      setError("Enter your email address first.");
+      return;
+    }
+    setResetLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/callback?next=/settings`,
+    });
+    setResetLoading(false);
+    if (error) {
+      setError(error.message);
+    } else {
+      setResetSent(true);
+    }
+  }
+
+  if (resetSent) {
+    return (
+      <div className="space-y-2 text-center">
+        <p className="text-sm font-medium">Check your email</p>
+        <p className="text-sm text-muted-foreground">
+          We sent a password reset link to <span className="font-medium text-foreground">{email}</span>.
+        </p>
+        <Button variant="ghost" size="sm" onClick={() => setResetSent(false)}>
+          Back to sign in
+        </Button>
+      </div>
+    );
   }
 
   if (magicSent) {
@@ -87,7 +121,17 @@ export function LoginForm() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password">Password</Label>
+            <button
+              type="button"
+              onClick={handleResetPassword}
+              disabled={resetLoading}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {resetLoading ? "Sending…" : "Forgot password?"}
+            </button>
+          </div>
           <Input
             id="password"
             type="password"

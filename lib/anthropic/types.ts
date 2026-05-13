@@ -25,6 +25,8 @@ export interface QuestionGenerationContext {
   segmentName: string;
   questionCount: number;
   personalContext?: string;
+  resumeText?: string;
+  jobDescription?: string;
 }
 
 export interface EvaluationContext {
