@@ -16,9 +16,8 @@ export async function POST(request: NextRequest) {
     let text = "";
 
     if (name.endsWith(".pdf")) {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const pdfParse = require("pdf-parse/dist/pdf-parse/cjs/index.cjs");
-      const result = await (pdfParse.default ?? pdfParse)(buffer);
+      const pdfParse = require("pdf-parse"); /* eslint-disable-line */
+      const result = await pdfParse(buffer);
       text = result.text;
     } else if (name.endsWith(".docx") || name.endsWith(".doc")) {
       const mammoth = await import("mammoth");
